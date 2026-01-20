@@ -1,15 +1,17 @@
 {
   "name": "dynamo-dev",
   "owner": {
-    "name": "Ishan Dhanani",
-    "url": "https://github.com/ishandhanani"
+    "name": "Ishan Dhanani"
   },
   "plugins": [
     {
       "name": "dynamo",
+      "source": {
+        "source": "github",
+        "repo": "ishandhanani/dynamo-claude-plugin"
+      },
       "version": "1.0.0",
-      "description": "Standardized commit, PR, spec refinement, and debugging workflows with Linear integration",
-      "keywords": ["workflow", "commit", "pr", "linear", "debugging", "dynamo"]
+      "description": "Standardized commit, PR, spec refinement, and debugging workflows with Linear integration"
     }
   ]
 }
