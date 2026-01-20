@@ -118,7 +118,7 @@ After the loop completes, update the Linear project description with:
 - [How we measure success]
 
 ## Target Release
-[Release label, e.g., "0.7.1"]
+[Release label, e.g., "Dynamo Releases > Dynamo 0.9.0"]
 
 ## Risks & Dependencies
 - [Known risks and dependencies]
@@ -144,3 +144,11 @@ Use Linear MCP to update the project description directly.
 - Summarize findings concisely before asking for more input
 - The loop should feel collaborative, not interrogative
 - Always ask about target release for labeling
+
+## Linear Label Structure
+
+Linear uses **nested labels** for releases. When applying release labels:
+- Labels are organized in groups (e.g., "Dynamo Releases")
+- Release labels are children of these groups (e.g., "Dynamo Releases > Dynamo 0.9.0")
+- When searching for labels via MCP, look for the parent group first, then the specific release
+- Example: To label for Dynamo 0.9.0, find "Dynamo Releases" group, then select "Dynamo 0.9.0"

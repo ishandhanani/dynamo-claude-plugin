@@ -33,9 +33,11 @@ Ask the user for the Linear project ID, then:
 
 ### Step 2: Identify Target Release
 
-Ask the user which release these tickets should be tagged with (e.g., "0.7.1", "0.9.0").
+Ask the user which release these tickets should be tagged with (e.g., "Dynamo 0.9.0").
 
-Fetch available release labels from the team if needed.
+Linear uses **nested labels** - release labels are under parent groups:
+- Example: "Dynamo Releases > Dynamo 0.9.0"
+- Fetch available labels from the team and look for the release label group first
 
 ### Step 3: Extract Tickets
 
@@ -65,7 +67,7 @@ For each ticket, create a Linear issue with:
 
 **Metadata**:
 - Link to parent project
-- **Add release label** (e.g., "0.7.1", "0.9.0")
+- **Add release label** (nested: "Dynamo Releases > Dynamo 0.9.0")
 - Set labels based on category (setup, implementation, integration, testing)
 - Add blocking relationships if dependencies exist
 
@@ -93,7 +95,7 @@ Project description snippet:
 
 Created Linear issue:
 - **Title**: Implement per-user rate limiting
-- **Labels**: `0.7.1`, `implementation`
+- **Labels**: `Dynamo Releases > Dynamo 0.7.1`, `implementation`
 - **Description**:
   ```
   ## What
