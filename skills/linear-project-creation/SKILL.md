@@ -1,11 +1,11 @@
 ---
 name: linear-project-creation
-description: Create and refine Linear projects through structured questioning
+description: Create and refine Linear projects through structured questioning and exploration
 ---
 
 # Linear Project Creation
 
-Create or refine a Linear project through structured dialogue. This skill requires Linear MCP.
+Create or refine a Linear project through structured dialogue and codebase exploration. This skill requires Linear MCP.
 
 ## Requirements
 
@@ -28,9 +28,13 @@ If existing:
 1. Fetch the project via Linear MCP
 2. Read current description and status
 
-### Step 2: Structured Questioning
+### Step 2: Question & Explore Loop
 
-Ask clarifying questions in batches of 2-3 to build out the project:
+This step repeats until both Claude and the user are satisfied with the gathered context.
+
+#### 2a: Ask Questions
+
+Ask clarifying questions in batches of 2-3:
 
 **Problem & Goals**
 - What problem does this solve?
@@ -55,9 +59,38 @@ Ask clarifying questions in batches of 2-3 to build out the project:
 - Which release is this targeting? (e.g., 0.7.1, 0.9.0)
 - Are there dependencies on other releases?
 
+#### 2b: Explore
+
+Based on the user's answers, gather relevant context:
+
+**Codebase exploration:**
+- Read files in the relevant area of the codebase
+- Look for existing patterns or similar implementations
+- Check tests to understand expected behavior
+- Identify interfaces or contracts that matter
+
+**Linear exploration:**
+- Fetch related Linear projects or issues
+- Check for prior work or dependencies
+- Look at how similar features were scoped
+
+**Summarize findings:**
+After exploring, briefly summarize what you learned and how it affects the spec.
+
+#### 2c: Check Satisfaction
+
+Ask the user:
+> "Based on what we've discussed and what I found, do you have more context to add? Or is there anything else I should explore?"
+
+**Exit conditions (move to Step 3 when either is met):**
+- **User signals done**: "That's enough" / "Looks good" / "Let's write it up"
+- **Claude is confident**: "I think I have enough context to write a solid spec - ready to proceed?"
+
+If neither condition is met, loop back to 2a with more targeted questions based on gaps identified.
+
 ### Step 3: Update Linear Project
 
-After gathering answers, update the Linear project description with:
+After the loop completes, update the Linear project description with:
 
 ```
 ## Problem Statement
@@ -88,6 +121,9 @@ After gathering answers, update the Linear project description with:
 
 ## Risks & Dependencies
 - [Known risks and dependencies]
+
+## Context Gathered
+[Brief summary of relevant code, patterns, or related issues discovered during exploration]
 ```
 
 Use Linear MCP to update the project description directly.
@@ -102,6 +138,8 @@ Use Linear MCP to update the project description directly.
 
 - Always use Linear MCP - no fallback to local markdown
 - Ask questions in batches of 2-3, not all at once
-- Prioritize questions that unblock implementation
-- Keep projects focused - don't over-engineer
+- Explore proactively - don't wait to be asked
+- Keep exploration focused - read relevant files, not the entire codebase
+- Summarize findings concisely before asking for more input
+- The loop should feel collaborative, not interrogative
 - Always ask about target release for labeling
