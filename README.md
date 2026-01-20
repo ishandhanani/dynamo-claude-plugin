@@ -103,6 +103,16 @@ Both skills integrate with Linear MCP for issue management.
 - Node.js (for Linear MCP via npx)
 - GitHub CLI (`gh`) for PR creation
 
+## Future Plugins
+
+This marketplace (`dynamo-dev`) can host multiple plugins. Potential additions:
+
+- **`router`** - Router-specific debugging and testing workflows
+- **`onboarding`** - New team member setup and codebase orientation
+- **`prefix-benchmark`** - Prefix caching benchmark workflows
+
+To add a new plugin, create a directory and add an entry to `.claude-plugin/marketplace.json`.
+
 ## License
 
 MIT
