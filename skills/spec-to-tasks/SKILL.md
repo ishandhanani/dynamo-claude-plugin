@@ -59,7 +59,7 @@ For each task, create a Linear issue with:
 
 **Metadata**:
 - Link to parent project/epic
-- **Add release label** (e.g., "Release 1.0", "Q1-2026") - always ask user for target release
+- **Add release label** (e.g., "0.7.1", "0.9.0") - always ask user for target release
 - Set labels based on category (setup, implementation, integration, testing)
 - Add blocking relationships if dependencies exist
 

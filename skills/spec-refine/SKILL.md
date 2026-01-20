@@ -75,7 +75,7 @@ After gathering answers:
 - [How we measure success]
 
 ## Target Release
-[Release label for Linear, e.g., "Release 1.0", "Q1-2026"]
+[Release label for Linear, e.g., "0.7.1", "0.9.0"]
 ```
 
 ## Behavior Notes
