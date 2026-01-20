@@ -6,11 +6,11 @@
   },
   "plugins": [
     {
-      "name": "workflow-tools",
+      "name": "dynamo",
       "version": "1.0.0",
       "description": "Standardized commit, PR, spec refinement, and debugging workflows with Linear integration",
       "source": ".",
-      "keywords": ["workflow", "commit", "pr", "linear", "debugging", "dynamo", "sglang"]
+      "keywords": ["workflow", "commit", "pr", "linear", "debugging", "dynamo"]
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "workflow-tools",
+  "name": "dynamo",
   "version": "1.0.0",
   "description": "Standardized commit, PR, spec refinement, and debugging workflows with Linear integration",
   "author": {
@@ -8,7 +8,7 @@
   },
   "repository": "https://github.com/ishandhanani/dynamo-claude-plugin",
   "license": "MIT",
-  "keywords": ["workflow", "commit", "pr", "linear", "debugging", "dynamo", "sglang"],
+  "keywords": ["workflow", "commit", "pr", "linear", "debugging", "dynamo"],
   "commands": "./commands/",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"

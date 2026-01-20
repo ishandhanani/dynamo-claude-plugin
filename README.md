@@ -1,6 +1,6 @@
 # dynamo-claude-plugin
 
-Claude Code plugin for Dynamo/SGLang development workflows with Linear integration.
+Claude Code plugin for Dynamo development workflows with Linear integration.
 
 ## Installation
 
@@ -13,7 +13,7 @@ Claude Code plugin for Dynamo/SGLang development workflows with Linear integrati
 ### 2. Install the plugin
 
 ```bash
-/plugin install workflow-tools@dynamo-dev
+/plugin install dynamo@dynamo-dev
 ```
 
 ### 3. Set up Linear MCP (included)
@@ -29,9 +29,9 @@ claude mcp add --transport http linear https://mcp.linear.app/mcp
 
 | Command | Description |
 |---------|-------------|
-| `/workflow-tools:commit` | Stage and commit with standardized format (`<type>: <description>`) |
-| `/workflow-tools:pr-create` | Create PR with team template |
-| `/workflow-tools:debug-session` | Start debugging session with worklog file |
+| `/dynamo:commit` | Stage and commit with standardized format (`<type>: <description>`) |
+| `/dynamo:pr-create` | Create PR with team template |
+| `/dynamo:debug-session` | Start debugging session with worklog file |
 
 ## Skills (Auto-activate)
 
@@ -83,7 +83,7 @@ Both skills integrate with Linear MCP for issue management.
 
 ## Debug Workflow
 
-`/workflow-tools:debug-session` creates a structured worklog:
+`/dynamo:debug-session` creates a structured worklog:
 
 1. Creates `<issue>.md` file
 2. Sets up reproduction-first debugging approach
@@ -94,7 +94,7 @@ Both skills integrate with Linear MCP for issue management.
 ## Updating
 
 ```bash
-/plugin update workflow-tools@dynamo-dev
+/plugin update dynamo@dynamo-dev
 ```
 
 ## Requirements
