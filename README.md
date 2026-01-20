@@ -67,11 +67,11 @@ Both skills integrate with Linear MCP for issue management.
 [Linear ticket: DYN-123]
 
 ## Testing
-- [ ] Verification steps
+- [ ] [Step to verify the change works]
 
 ## Checklist
-- [ ] Tests pass
-- [ ] No performance regression
+- [ ] Human has reviewed AI code
+- [ ] Relevant context for this fix has been tracked in this issue and/or in associated linear ticket for future debugging
 - [ ] Code follows project conventions
 ```
 

@@ -52,11 +52,10 @@ Based on the branch and commits above:
 
 ## Testing
 - [ ] [Step to verify the change works]
-- [ ] [Another verification step if needed]
 
 ## Checklist
-- [ ] Tests pass
-- [ ] No performance regression
+- [ ] Human has reviewed AI code
+- [ ] Relevant context for this fix has been tracked in this issue and/or in associated linear ticket for future debugging
 - [ ] Code follows project conventions
 ```
 
