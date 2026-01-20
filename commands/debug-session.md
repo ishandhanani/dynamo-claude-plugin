@@ -88,14 +88,16 @@ Rebuild Dynamo after making changes:
 cd lib/bindings/python && maturin develop --uv && cd ../../.. && uv pip install -e .
 ```
 
+If a framework change is required (sglang, vllm, trtllm), check the user's `~/.claude/CLAUDE.md` for rebuild instructions specific to that framework.
+
 ### Running Examples
 
 Examples are located at: `/home/ubuntu/dynamo/examples/backends/`
 
 Available backends:
 - `sglang/launch/` - SGLang backend examples
-- `vllm/` - vLLM backend examples
-- `trtllm/` - TensorRT-LLM backend examples
+- `vllm/launch/` - vLLM backend examples
+- `trtllm/launch/` - TensorRT-LLM backend examples
 
 Based on the bug report, determine which backend is relevant:
 - If unclear, **ask the user** which backend/example to run
