@@ -7,19 +7,54 @@ description: Start a debugging session with worklog file
 
 Create a structured debugging session for an issue.
 
-## Instructions
+## Step 1: Get the Bug Report
 
-1. **Ask** for the issue name/description if not provided
+Ask the user how they want to provide the bug:
 
-2. **Create worklog** file:
-   - Filename: `<issue-slug>.md` in current directory
-   - Template:
+**Option A: Linear ticket**
+- User provides ticket ID (e.g., "DYN-123")
+- Fetch via Linear MCP tools
+- Extract: title, description, reproduction steps
+
+**Option B: GitHub issue**
+- User provides issue URL
+- Fetch via `gh issue view <url>`
+- Extract: title, description, reproduction steps
+
+**Option C: Paste**
+- Ask user to paste the bug report directly
+- Parse out the key details
+
+## Step 2: Discover Environment
+
+Before diving in, quickly understand the user's environment:
+
+```bash
+nvidia-smi --query-gpu=name,count --format=csv,noheader
+uname -a
+which python && python --version
+```
+
+This tells you:
+- GPU type and count (L40s, H100s, etc.)
+- OS/platform
+- Python environment
+
+**Note**: The user's `~/.claude/CLAUDE.md` may have more details about their dev environment (paths, aliases, preferences). Check there for additional context.
+
+## Step 3: Create Worklog
+
+Create a worklog file to track the investigation:
+
+- Filename: `<issue-slug>.md` in current directory
+- Template:
 
 ```markdown
 # Debug: [Issue Title]
 
 **Date**: [today's date]
 **Status**: investigating
+**Environment**: [GPU type/count from nvidia-smi]
 
 ## Problem
 [Description of the issue]
@@ -44,14 +79,54 @@ Create a structured debugging session for an issue.
 [Fill in when implemented]
 ```
 
-3. **Remind** about the debugging workflow:
-   - Reproduce the issue first before attempting any fix
-   - Document findings in the worklog as you go
-   - Make minimal changes - fix the bug, don't refactor
+## Step 4: Set Up Testing
 
-4. **Set context** for this session:
-   - Ensure you're in a venv at project root (handled by uv)
-   - Rebuild Dynamo: `cd lib/bindings/python && maturin develop --uv && cd ../../.. && uv pip install -e .`
-   - Rebuild SGLang: `uv pip install -e "python"`
-   - Test endpoints: localhost:8000/v1/models
-   - Performance-critical code - avoid unnecessary changes
+### Build Commands
+
+Rebuild after making changes:
+- **Dynamo**: `cd lib/bindings/python && maturin develop --uv && cd ../../.. && uv pip install -e .`
+- **SGLang**: `cd /home/ubuntu/sglang && uv pip install -e "python"`
+
+Or use the `build` alias if configured in user's shell.
+
+### Running Examples
+
+Examples are located at: `/home/ubuntu/dynamo/examples/backends/`
+
+Available backends:
+- `sglang/launch/` - SGLang backend examples
+- `vllm/` - vLLM backend examples
+- `trtllm/` - TensorRT-LLM backend examples
+
+Based on the bug report, determine which backend is relevant:
+- If unclear, **ask the user** which backend/example to run
+- Run the example in the background
+- Wait for model to be ready
+
+### Verifying the Model is Up
+
+```bash
+curl localhost:8000/v1/models
+```
+
+### Testing with a Request
+
+```bash
+curl http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "<model-name-from-above>",
+    "messages": [{"role": "user", "content": "Hello"}],
+    "max_tokens": 50
+  }'
+```
+
+## Step 5: Begin Investigation
+
+Remind about the debugging workflow:
+1. **Reproduce first** - verify you can trigger the bug before attempting fixes
+2. **Document as you go** - update the worklog with findings
+3. **Minimal changes** - fix the bug, don't refactor surrounding code
+4. **Verify the fix** - confirm the reproduction case now passes
+
+Performance-critical code - avoid unnecessary abstractions or comments.

@@ -83,13 +83,29 @@ Both skills integrate with Linear MCP for issue management.
 
 ## Debug Workflow
 
-`/dynamo:debug-session` creates a structured worklog:
+`/dynamo:debug-session` starts a structured debugging session:
 
-1. Creates `<issue>.md` file
-2. Sets up reproduction-first debugging approach
-3. Includes rebuild commands:
-   - Dynamo: `cd lib/bindings/python && maturin develop --uv && cd ../../.. && uv pip install -e .`
-   - SGLang: `uv pip install -e "python"`
+1. **Get bug report** - from Linear ticket, GitHub issue, or paste
+2. **Discover environment** - runs `nvidia-smi`, checks python, reads user's CLAUDE.md
+3. **Create worklog** - `<issue>.md` file to track investigation
+4. **Set up testing** - points to examples in `/home/ubuntu/dynamo/examples/backends/` (sglang, vllm, trtllm)
+5. **Begin investigation** - reproduce first, minimal changes, document findings
+
+### Recommended: Add Dev Environment to Your CLAUDE.md
+
+For best results with `/dynamo:debug-session`, add a dev environment section to your personal `~/.claude/CLAUDE.md`:
+
+```markdown
+## Dev Environment
+
+- **VM**: 4xL40s GPU (or describe your setup)
+- **Dynamo**: /home/ubuntu/dynamo
+- **SGLang**: /home/ubuntu/sglang
+- **venv**: dynamo (default)
+- **Build alias**: `build` runs full Dynamo rebuild
+```
+
+This helps Claude understand your specific setup without re-discovering it each session.
 
 ## Updating
 
