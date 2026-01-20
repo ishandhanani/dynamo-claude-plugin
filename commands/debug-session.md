@@ -83,11 +83,10 @@ Create a worklog file to track the investigation:
 
 ### Build Commands
 
-Rebuild after making changes:
-- **Dynamo**: `cd lib/bindings/python && maturin develop --uv && cd ../../.. && uv pip install -e .`
-- **SGLang**: `cd /home/ubuntu/sglang && uv pip install -e "python"`
-
-Or use the `build` alias if configured in user's shell.
+Rebuild Dynamo after making changes:
+```bash
+cd lib/bindings/python && maturin develop --uv && cd ../../.. && uv pip install -e .
+```
 
 ### Running Examples
 
