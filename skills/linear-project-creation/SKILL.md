@@ -1,11 +1,11 @@
 ---
 name: linear-project-creation
-description: Create and refine Linear projects through structured questioning and exploration
+description: Create and refine Linear projects through in-depth interviewing and exploration
 ---
 
 # Linear Project Creation
 
-Create or refine a Linear project through structured dialogue and codebase exploration. This skill requires Linear MCP.
+Create or refine a Linear project through in-depth interviewing and codebase exploration. This skill requires Linear MCP.
 
 ## Requirements
 
@@ -28,36 +28,37 @@ If existing:
 1. Fetch the project via Linear MCP
 2. Read current description and status
 
-### Step 2: Question & Explore Loop
+### Step 2: Interview & Explore Loop
 
-This step repeats until both Claude and the user are satisfied with the gathered context.
+This step repeats until both Claude and the user are satisfied.
 
-#### 2a: Ask Questions
+#### 2a: Interview
 
-Ask clarifying questions in batches of 2-3:
+Interview the user in detail about literally anything relevant to the project:
+- Technical implementation and architecture
+- UI/UX considerations
+- Performance concerns and constraints
+- Edge cases and failure modes
+- Tradeoffs and alternatives considered
+- Dependencies and integration points
+- Security and reliability requirements
 
-**Problem & Goals**
-- What problem does this solve?
-- What does success look like?
-- How will we measure it?
+**Important guidelines:**
+- Ask questions in batches of 2-3 (less overwhelming)
+- Make sure questions are **not obvious** - dig deeper than surface level
+- Don't ask things you could figure out by reading the code
+- Challenge assumptions - ask "why" and "what if"
+- Be in-depth, not superficial
 
-**Scope**
-- What's explicitly in scope?
-- What's explicitly out of scope?
-- What's deferred to future iterations?
+**Bad questions** (too obvious):
+- "What problem does this solve?" (ask for the spec first, then go deeper)
+- "What are the requirements?" (too generic)
 
-**Requirements**
-- What are the must-haves?
-- What are the nice-to-haves?
-- Are there performance requirements?
-
-**Dependencies & Risks**
-- What does this depend on?
-- What are the known risks?
-
-**Release Planning**
-- Which release is this targeting? (e.g., 0.7.1, 0.9.0)
-- Are there dependencies on other releases?
+**Good questions** (specific, probing):
+- "You mentioned X - how should that behave when Y happens?"
+- "I see the current implementation does Z - are we keeping that pattern or changing it?"
+- "What's the failure mode if the upstream service is slow?"
+- "Is there a performance budget for this? Latency constraints?"
 
 #### 2b: Explore
 
@@ -75,7 +76,7 @@ Based on the user's answers, gather relevant context:
 - Look at how similar features were scoped
 
 **Summarize findings:**
-After exploring, briefly summarize what you learned and how it affects the spec.
+After exploring, briefly summarize what you learned and how it informs the spec.
 
 #### 2c: Check Satisfaction
 
@@ -137,7 +138,7 @@ Use Linear MCP to update the project description directly.
 ## Behavior Notes
 
 - Always use Linear MCP - no fallback to local markdown
-- Ask questions in batches of 2-3, not all at once
+- Be thorough but not tedious - know when to stop
 - Explore proactively - don't wait to be asked
 - Keep exploration focused - read relevant files, not the entire codebase
 - Summarize findings concisely before asking for more input
