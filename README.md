@@ -37,10 +37,10 @@ claude mcp add --transport http linear https://mcp.linear.app/mcp
 
 | Skill | Triggers when... |
 |-------|------------------|
-| `spec-refine` | Discussing requirements, specs, or project planning |
-| `spec-to-tasks` | Breaking down specs into implementable tasks |
+| `linear-project-creation` | Creating or refining Linear projects |
+| `linear-project-to-tickets` | Breaking down Linear projects into tickets |
 
-Both skills integrate with Linear MCP for issue management.
+Both skills **require Linear MCP** - no offline fallback.
 
 ## Commit Format
 
@@ -75,10 +75,10 @@ Both skills integrate with Linear MCP for issue management.
 - [ ] Code follows project conventions
 ```
 
-## Spec Workflow
+## Linear Workflow
 
-1. **Refine spec** (`spec-refine`): Discuss requirements, Claude asks clarifying questions, syncs to Linear
-2. **Convert to tasks** (`spec-to-tasks`): Break spec into Linear tickets with acceptance criteria
+1. **Create project** (`linear-project-creation`): Create or refine a Linear project through structured questioning
+2. **Create tickets** (`linear-project-to-tickets`): Break the project into Linear tickets with acceptance criteria and release labels
 3. **Implement**: Each ticket has clear verification steps
 
 ## Debug Workflow
