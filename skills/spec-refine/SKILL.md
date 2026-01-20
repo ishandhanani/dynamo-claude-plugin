@@ -39,6 +39,10 @@ Ask clarifying questions in batches of 2-3:
 - Is anything ambiguous about what's in/out of scope?
 - Features to defer to future iterations?
 
+**Release Planning**
+- Which release is this targeting? (for Linear label assignment)
+- Are there dependencies on other releases?
+
 ### Phase 3: Refine & Save
 After gathering answers:
 1. Output the refined spec in the format below
@@ -69,6 +73,9 @@ After gathering answers:
 
 ## Success Metrics
 - [How we measure success]
+
+## Target Release
+[Release label for Linear, e.g., "Release 1.0", "Q1-2026"]
 ```
 
 ## Behavior Notes

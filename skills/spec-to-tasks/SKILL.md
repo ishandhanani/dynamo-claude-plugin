@@ -22,6 +22,7 @@ This skill uses Linear MCP to:
 - Fetch the parent project/epic if provided
 - Create issues as sub-issues or in the same project
 - Set appropriate labels, priorities, and estimates
+- **Tag issues with release labels** (required)
 - Link related issues
 
 ## Process
@@ -29,6 +30,8 @@ This skill uses Linear MCP to:
 ### Step 1: Get Context
 - If user provides a Linear project ID, fetch it
 - Understand the team and project structure
+- **Ask which release this work targets** (use Linear labels for releases)
+- Fetch available release labels from the team if needed
 
 ### Step 2: Extract Tasks
 From the spec, identify discrete units of work:
@@ -56,6 +59,7 @@ For each task, create a Linear issue with:
 
 **Metadata**:
 - Link to parent project/epic
+- **Add release label** (e.g., "Release 1.0", "Q1-2026") - always ask user for target release
 - Set labels based on category (setup, implementation, integration, testing)
 - Add blocking relationships if dependencies exist
 
