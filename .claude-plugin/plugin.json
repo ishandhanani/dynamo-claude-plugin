@@ -10,6 +10,5 @@
   "license": "MIT",
   "keywords": ["workflow", "commit", "pr", "linear", "debugging", "dynamo"],
   "commands": "./commands/",
-  "skills": "./skills/",
-  "mcpServers": "./.mcp.json"
+  "skills": "./skills/"
 }

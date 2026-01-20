@@ -16,11 +16,11 @@ Claude Code plugin for Dynamo development workflows with Linear integration.
 /plugin install dynamo@dynamo-dev
 ```
 
-### 3. Set up Linear MCP (included)
+### 3. Set up Linear MCP
 
-The plugin includes Linear MCP config. On first use of Linear features, you'll be prompted to authenticate via OAuth.
+The Linear skills require Linear MCP. Set it up at: https://mcp.linear.app
 
-To manually add Linear MCP:
+Or add manually:
 ```bash
 claude mcp add --transport http linear https://mcp.linear.app/mcp
 ```
@@ -116,7 +116,7 @@ This helps Claude understand your specific setup without re-discovering it each 
 ## Requirements
 
 - Claude Code CLI
-- Node.js (for Linear MCP via npx)
+- Linear MCP (see step 3)
 - GitHub CLI (`gh`) for PR creation
 
 ## Future Plugins
