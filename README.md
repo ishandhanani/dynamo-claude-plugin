@@ -39,8 +39,9 @@ claude mcp add --transport http linear https://mcp.linear.app/mcp
 |-------|------------------|
 | `linear-project-creation` | Creating or refining Linear projects |
 | `linear-project-to-tickets` | Breaking down Linear projects into tickets |
+| `tool-parser-generator` | Adding tool calling support for HuggingFace models |
 
-Both skills **require Linear MCP** - no offline fallback.
+**Note:** Linear skills require Linear MCP - no offline fallback.
 
 ## Commit Format
 
