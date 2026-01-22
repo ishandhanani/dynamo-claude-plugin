@@ -32,6 +32,7 @@ claude mcp add --transport http linear https://mcp.linear.app/mcp
 | `/dynamo:commit` | Stage and commit with standardized format (`<type>: <description>`) |
 | `/dynamo:pr-create` | Create PR with team template |
 | `/dynamo:debug-session` | Start debugging session with worklog file |
+| `/dynamo:version-migration` | Break up large version migrations into reviewable PRs |
 
 ## Skills (Auto-activate)
 
@@ -81,6 +82,19 @@ claude mcp add --transport http linear https://mcp.linear.app/mcp
 1. **Create project** (`linear-project-creation`): Create or refine a Linear project through structured questioning
 2. **Create tickets** (`linear-project-to-tickets`): Break the project into Linear tickets with acceptance criteria and release labels
 3. **Implement**: Each ticket has clear verification steps
+
+## Version Migration Workflow
+
+`/dynamo:version-migration` helps break up large version migrations into reviewable PRs:
+
+1. **Initialize** - Specify source (new) and target (old) directories
+2. **Analyze** - Build dependency graph, find leaf modules
+3. **Map** - Connect new modules to old code they replace
+4. **Justify** - Explain why each change is necessary (validated against code)
+5. **Plan** - Generate PR order based on dependencies
+6. **Execute** - Create branches, PRs, and Linear tickets
+
+State persists in `.version-migration.json` for resuming across sessions.
 
 ## Debug Workflow
 
