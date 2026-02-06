@@ -34,41 +34,51 @@ This step repeats until both Claude and the user are satisfied.
 
 #### 2a: Interview
 
-Interview the user in detail about literally anything relevant to the project:
-- Technical implementation and architecture
-- UI/UX considerations
-- Performance concerns and constraints
-- Edge cases and failure modes
-- Tradeoffs and alternatives considered
-- Dependencies and integration points
-- Security and reliability requirements
+Ask targeted, probing questions in batches of 2-3. Focus on areas that matter for Dynamo projects:
+
+**Architecture & Design:**
+- "Which layer does this change live in - Rust core, Python bindings, or SGLang wrapper?"
+- "Does this touch the KV block manager or routing layer?"
+- "Will this require changes on both sides of the PyO3 boundary?"
+
+**Performance:**
+- "What is the latency budget for this? Are we on the critical path for TTFT or ITL?"
+- "How does this scale with number of concurrent requests / GPUs / nodes?"
+- "Is there an existing benchmark we can use to measure the impact?"
+
+**Integration & Compatibility:**
+- "Does this change any interfaces that SGLang or vLLM depend on?"
+- "Will this require a coordinated release with SGLang?"
+- "Are there existing examples that need to be updated?"
+
+**Failure Modes:**
+- "What happens if this fails at runtime - graceful degradation or hard error?"
+- "What is the multi-node failure mode? Can one node fail without affecting others?"
+- "How do we detect if this feature is misbehaving in production?"
+
+**Testing & Validation:**
+- "Can this be tested with a single GPU or does it require multi-GPU/multi-node?"
+- "Is there an existing integration test (agg.sh/disagg.sh) that covers this path?"
+- "How do we verify correctness beyond 'it does not crash'?"
 
 **Important guidelines:**
 - Ask questions in batches of 2-3 (less overwhelming)
-- Make sure questions are **not obvious** - dig deeper than surface level
-- Don't ask things you could figure out by reading the code
+- Do not ask things you could figure out by reading the code
 - Challenge assumptions - ask "why" and "what if"
-- Be in-depth, not superficial
-
-**Bad questions** (too obvious):
-- "What problem does this solve?" (ask for the spec first, then go deeper)
-- "What are the requirements?" (too generic)
-
-**Good questions** (specific, probing):
-- "You mentioned X - how should that behave when Y happens?"
-- "I see the current implementation does Z - are we keeping that pattern or changing it?"
-- "What's the failure mode if the upstream service is slow?"
-- "Is there a performance budget for this? Latency constraints?"
+- If the user mentions a specific file or component, read it before asking follow-up questions
 
 #### 2b: Explore
 
 Based on the user's answers, gather relevant context:
 
-**Codebase exploration:**
-- Read files in the relevant area of the codebase
-- Look for existing patterns or similar implementations
-- Check tests to understand expected behavior
-- Identify interfaces or contracts that matter
+**Codebase exploration (use Dynamo directory map):**
+- `lib/llm/src/` - Rust LLM core
+- `lib/parsers/src/` - Parser implementations
+- `lib/bindings/python/` - PyO3 bindings
+- `components/src/dynamo/sglang/` - SGLang wrapper
+- `examples/backends/` - Example configurations
+
+Read relevant files, look for existing patterns, check tests, identify interfaces.
 
 **Linear exploration:**
 - Fetch related Linear projects or issues
@@ -113,15 +123,20 @@ After the loop completes, update the Linear project description with:
 
 ## Technical Approach
 [High-level approach, not implementation details]
+[Include which layers are affected: Rust core / Python bindings / SGLang wrapper / deployment]
+
+## Performance Considerations
+[Latency impact, memory impact, scaling characteristics]
 
 ## Success Metrics
-- [How we measure success]
+- [How we measure success - specific numbers where possible]
 
 ## Target Release
 [Release label, e.g., "Dynamo Releases > Dynamo 0.9.0"]
 
 ## Risks & Dependencies
 - [Known risks and dependencies]
+- [SGLang version requirements if applicable]
 
 ## Context Gathered
 [Brief summary of relevant code, patterns, or related issues discovered during exploration]
@@ -139,7 +154,7 @@ Use Linear MCP to update the project description directly.
 
 - Always use Linear MCP - no fallback to local markdown
 - Be thorough but not tedious - know when to stop
-- Explore proactively - don't wait to be asked
+- Explore proactively - do not wait to be asked
 - Keep exploration focused - read relevant files, not the entire codebase
 - Summarize findings concisely before asking for more input
 - The loop should feel collaborative, not interrogative

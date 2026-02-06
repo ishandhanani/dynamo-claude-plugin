@@ -38,6 +38,7 @@ Ask the user which release these tickets should be tagged with (e.g., "Dynamo 0.
 Linear uses **nested labels** - release labels are under parent groups:
 - Example: "Dynamo Releases > Dynamo 0.9.0"
 - Fetch available labels from the team and look for the release label group first
+- If the release label does not exist, create it under the appropriate parent group
 
 ### Step 3: Extract Tickets
 
@@ -46,11 +47,25 @@ From the project description, identify discrete units of work:
 - Each task should have clear verification criteria
 - Tasks ordered by dependency (blockers first)
 
+**Granularity guidelines:**
+- Each ticket should take 1-4 hours of focused work
+- If a ticket feels like it would take a full day, break it down further
+- If a ticket feels like it would take 30 minutes, combine it with a related task
+- Rust core changes and Python binding updates can be separate tickets if they are independently testable
+- "Setup" tickets (scaffolding, config) should be separate from "implementation" tickets
+
+**Dependency ordering:**
+1. Infrastructure / scaffolding tickets first
+2. Core implementation tickets (ordered by data flow)
+3. Integration / wiring tickets
+4. Testing / validation tickets
+5. Documentation / cleanup tickets (if needed)
+
 ### Step 4: Create Linear Issues
 
 For each ticket, create a Linear issue with:
 
-**Title**: Concise action (e.g., "Implement per-user rate limiting")
+**Title**: Concise action in imperative form (e.g., "Implement per-user rate limiting")
 
 **Description**:
 ```
@@ -58,11 +73,18 @@ For each ticket, create a Linear issue with:
 [One sentence on what this accomplishes]
 
 ## Acceptance Criteria
-- [ ] [Verification step 1]
-- [ ] [Verification step 2]
+- [ ] [Specific, verifiable condition - not "works correctly" but "returns 429 when limit exceeded"]
+- [ ] [Another condition]
+
+## Verification Steps
+[How to actually test this - concrete commands or checks]
+1. Build: `cd lib/bindings/python && maturin develop --uv && cd ../../.. && uv pip install -e .`
+2. Run: [specific example or test command]
+3. Verify: [what to check in the output]
 
 ## Notes
 [Any context, dependencies, or constraints]
+[Reference to specific files or modules if helpful]
 ```
 
 **Metadata**:
@@ -70,23 +92,26 @@ For each ticket, create a Linear issue with:
 - **Add release label** (nested: "Dynamo Releases > Dynamo 0.9.0")
 - Set labels based on category (setup, implementation, integration, testing)
 - Add blocking relationships if dependencies exist
+- Set priority based on dependency order (blockers get higher priority)
 
 ### Step 5: Confirm with User
 
 Before creating tickets:
 1. Show the list of issues to be created (title + acceptance criteria)
 2. Show the release label that will be applied
-3. Ask for confirmation
-4. Create all issues via Linear MCP
-5. Return the issue IDs/URLs
+3. Show blocking relationships
+4. Ask for confirmation
+5. Create all issues via Linear MCP
+6. Return the issue IDs/URLs
 
 ## Guidelines
 
-- **Granularity**: Tickets should take 1-4 hours, not days
+- **Granularity**: 1-4 hours per ticket, not days
 - **Independence**: Minimize coupling between tickets where possible
-- **Verification focus**: If you can't verify it, the ticket isn't well-defined
-- **No implementation details**: Don't specify *how* to code it, specify *what* it should do
+- **Verification focus**: Every ticket must have concrete verification steps - if you cannot verify it, the ticket is not well-defined
+- **No implementation details**: Do not specify *how* to code it, specify *what* it should do
 - **Always tag release**: Every ticket must have a release label
+- **Concrete acceptance criteria**: Not "handles errors" but "returns HTTP 503 with JSON body when backend is unavailable"
 
 ## Example
 
@@ -103,7 +128,17 @@ Created Linear issue:
 
   ## Acceptance Criteria
   - [ ] Make 100 requests in <60s with same user token -> all succeed
-  - [ ] Make 101st request -> returns 429 Too Many Requests
+  - [ ] Make 101st request -> returns 429 Too Many Requests with retry-after header
   - [ ] Wait 60s, make another request -> succeeds
   - [ ] Different user token is not affected by first user's limit
+  - [ ] Rate limit state survives server restart (or document if it does not)
+
+  ## Verification Steps
+  1. Build: `cd lib/bindings/python && maturin develop --uv && cd ../../.. && uv pip install -e .`
+  2. Start server: `bash examples/backends/sglang/launch/agg.sh`
+  3. Run: `for i in $(seq 1 101); do curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer test-token" http://localhost:8000/v1/chat/completions -d '{"model":"test","messages":[{"role":"user","content":"hi"}]}'; done`
+  4. Verify: First 100 return 200, 101st returns 429
+
+  ## Notes
+  Rate limiting should be implemented in the Rust preprocessing layer for performance.
   ```

@@ -1,11 +1,13 @@
 ---
 name: debug-session
 description: Start a debugging session with worklog file
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Start Debug Session
 
-Create a structured debugging session for an issue.
+Create a structured debugging session for an issue in the Dynamo/SGLang ecosystem.
 
 ## Step 1: Get the Bug Report
 
@@ -27,13 +29,13 @@ Ask the user how they want to provide the bug:
 
 ## Step 2: Discover Environment
 
-Before diving in, quickly understand the user's environment:
+Gather environment information:
 
-```bash
-nvidia-smi --query-gpu=name,count --format=csv,noheader
-uname -a
-which python && python --version
-```
+!`nvidia-smi --query-gpu=name,count --format=csv,noheader 2>/dev/null || echo "No GPU detected"`
+
+!`uname -a`
+
+!`which python && python --version`
 
 This tells you:
 - GPU type and count (L40s, H100s, etc.)
@@ -53,6 +55,7 @@ Create a worklog file to track the investigation:
 # Debug: [Issue Title]
 
 **Date**: [today's date]
+**Source**: [Linear ticket / GitHub issue / user report]
 **Status**: investigating
 **Environment**: [GPU type/count from nvidia-smi]
 
@@ -124,10 +127,35 @@ curl http://localhost:8000/v1/chat/completions \
 
 ## Step 5: Begin Investigation
 
-Remind about the debugging workflow:
+### Dynamo/SGLang Specific Debugging
+
+**KV cache and routing issues:**
+- Check KV event logs in `lib/llm/src/block_manager/kv_consolidator/tracker.rs`
+- Look at block manager state and consolidation behavior
+- Inspect routing decisions in the KV-aware router
+
+**ZMQ / networking issues:**
+- Check ZMQ socket configuration and endpoint bindings
+- Look for connection timeouts or message drops
+- Verify nats/etcd connectivity for service discovery
+
+**Multi-node / disaggregated issues:**
+- Check prefill/decode worker assignment
+- Verify DGD (disaggregated) status reporting
+- Inspect inter-node communication via `nvidia-smi` on each node
+- Check NCCL and GPU direct RDMA status
+
+**Process inspection:**
+- `ps aux | grep dynamo` - check running processes
+- `nvidia-smi` - GPU utilization and memory
+- `ss -tlnp | grep 8000` - check port bindings
+- `journalctl -u dynamo` - systemd logs if applicable
+
+### General Debugging Workflow
+
 1. **Reproduce first** - verify you can trigger the bug before attempting fixes
 2. **Document as you go** - update the worklog with findings
-3. **Minimal changes** - fix the bug, don't refactor surrounding code
+3. **Minimal changes** - fix the bug, do not refactor surrounding code
 4. **Verify the fix** - confirm the reproduction case now passes
 
 Performance-critical code - avoid unnecessary abstractions or comments.

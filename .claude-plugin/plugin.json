@@ -1,14 +1,13 @@
 {
   "name": "dynamo",
-  "version": "1.0.0",
-  "description": "Standardized commit, PR, spec refinement, and debugging workflows with Linear integration",
+  "version": "2.0.0",
+  "description": "Dynamo development workflows: commit, PR, debugging, testing, and Linear integration",
   "author": {
     "name": "Ishan Dhanani",
     "url": "https://github.com/ishandhanani"
   },
   "repository": "https://github.com/ishandhanani/dynamo-claude-plugin",
   "license": "MIT",
-  "keywords": ["workflow", "commit", "pr", "linear", "debugging", "dynamo"],
-  "commands": "./commands/",
+  "keywords": ["workflow", "commit", "pr", "linear", "debugging", "dynamo", "testing", "release"],
   "skills": "./skills/"
 }

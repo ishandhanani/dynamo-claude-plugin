@@ -25,21 +25,25 @@ Or add manually:
 claude mcp add --transport http linear https://mcp.linear.app/mcp
 ```
 
-## Commands
+## Skills
 
-| Command | Description |
-|---------|-------------|
-| `/dynamo:commit` | Stage and commit with standardized format (`<type>: <description>`) |
-| `/dynamo:pr-create` | Create PR with team template |
-| `/dynamo:debug-session` | Start debugging session with worklog file |
+### User-Invocable (slash commands)
 
-## Skills (Auto-activate)
+| Skill | Command | Description |
+|-------|---------|-------------|
+| commit | `/dynamo:commit` | Stage and commit with standardized format (`<type>: <description>`) |
+| pr-create | `/dynamo:pr-create` | Create PR with team template and Linear ticket references |
+| debug-session | `/dynamo:debug-session` | Start debugging session with worklog file |
+| dynamo-explore | `/dynamo:dynamo-explore` | Explore Dynamo codebase architecture and trace component interactions |
+| release-check | `/dynamo:release-check` | Check Dynamo/SGLang version compatibility before releases |
+
+### Auto-Activating
 
 | Skill | Triggers when... |
 |-------|------------------|
-| `linear-project-creation` | Creating or refining Linear projects |
-| `linear-project-to-tickets` | Breaking down Linear projects into tickets |
-| `tool-parser-generator` | Adding tool calling support for HuggingFace models |
+| linear-project-creation | Creating or refining Linear projects |
+| linear-project-to-tickets | Breaking down Linear projects into tickets |
+| tool-parser-generator | Adding tool calling support for HuggingFace models |
 
 **Note:** Linear skills require Linear MCP - no offline fallback.
 
@@ -76,37 +80,41 @@ claude mcp add --transport http linear https://mcp.linear.app/mcp
 - [ ] Code follows project conventions
 ```
 
-## Linear Workflow
+## Workflows
+
+### Development Workflow
+
+1. **Explore** (`/dynamo:dynamo-explore`): Understand the relevant codebase area
+2. **Implement**: Make changes
+3. **Test** (`/live-server-test`): Launch servers and send test traffic
+4. **Commit** (`/dynamo:commit`): Standardized commit
+5. **PR** (`/dynamo:pr-create`): Create PR with template
+
+### Project Planning Workflow
 
 1. **Create project** (`linear-project-creation`): Create or refine a Linear project through structured questioning
 2. **Create tickets** (`linear-project-to-tickets`): Break the project into Linear tickets with acceptance criteria and release labels
 3. **Implement**: Each ticket has clear verification steps
 
-## Debug Workflow
+### Debug Workflow
 
 `/dynamo:debug-session` starts a structured debugging session:
 
 1. **Get bug report** - from Linear ticket, GitHub issue, or paste
 2. **Discover environment** - runs `nvidia-smi`, checks python, reads user's CLAUDE.md
 3. **Create worklog** - `<issue>.md` file to track investigation
-4. **Set up testing** - points to examples in `/home/ubuntu/dynamo/examples/backends/` (sglang, vllm, trtllm)
+4. **Set up testing** - points to examples in `/home/ubuntu/dynamo/examples/backends/`
 5. **Begin investigation** - reproduce first, minimal changes, document findings
 
-### Recommended: Add Dev Environment to Your CLAUDE.md
+### Release Workflow
 
-For best results with `/dynamo:debug-session`, add a dev environment section to your personal `~/.claude/CLAUDE.md`:
+`/dynamo:release-check` verifies compatibility before releases:
 
-```markdown
-## Dev Environment
-
-- **VM**: 4xL40s GPU (or describe your setup)
-- **Dynamo**: /home/ubuntu/dynamo
-- **SGLang**: /home/ubuntu/sglang
-- **venv**: dynamo (default)
-- **Build alias**: `build` runs full Dynamo rebuild
-```
-
-This helps Claude understand your specific setup without re-discovering it each session.
+1. Gather version info from Dynamo and SGLang
+2. Check API compatibility (ConfigArgumentMerger, argument parsing)
+3. Verify Python binding compatibility
+4. Run integration smoke test
+5. Report findings with recommendation
 
 ## Updating
 
@@ -119,16 +127,6 @@ This helps Claude understand your specific setup without re-discovering it each 
 - Claude Code CLI
 - Linear MCP (see step 3)
 - GitHub CLI (`gh`) for PR creation
-
-## Future Plugins
-
-This marketplace (`dynamo-dev`) can host multiple plugins. Potential additions:
-
-- **`router`** - Router-specific debugging and testing workflows
-- **`onboarding`** - New team member setup and codebase orientation
-- **`prefix-benchmark`** - Prefix caching benchmark workflows
-
-To add a new plugin, create a directory and add an entry to `.claude-plugin/marketplace.json`.
 
 ## License
 
