@@ -35,6 +35,7 @@ claude mcp add --transport http linear https://mcp.linear.app/mcp
 | pr-create | `/dynamo:pr-create` | Create PR with team template and Linear ticket references |
 | debug-session | `/dynamo:debug-session` | Start debugging session with worklog file |
 | dynamo-explore | `/dynamo:dynamo-explore` | Explore Dynamo codebase architecture and trace component interactions |
+| pr-monitor | `/dynamo:pr-monitor <PR#>` | Check CI status, analyze failures/skips, diagnose missing CI triggers |
 | release-check | `/dynamo:release-check` | Check Dynamo/SGLang version compatibility before releases |
 
 ### Auto-Activating
@@ -105,6 +106,17 @@ claude mcp add --transport http linear https://mcp.linear.app/mcp
 3. **Create worklog** - `<issue>.md` file to track investigation
 4. **Set up testing** - points to examples in `/home/ubuntu/dynamo/examples/backends/`
 5. **Begin investigation** - reproduce first, minimal changes, document findings
+
+### PR Monitor Workflow
+
+`/dynamo:pr-monitor <PR#>` performs a full CI health check:
+
+1. Gather PR metadata and map changed files to CI filter categories
+2. Check if CI was triggered (diagnose DCO failures, fork approval, draft status)
+3. Dashboard all checks: passed, failed, pending, skipped
+4. Analyze each failure with root cause and suggested fix
+5. Explain skips and flag unexpected ones
+6. Actionable summary with concrete next steps
 
 ### Release Workflow
 
