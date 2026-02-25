@@ -10,8 +10,8 @@
         "source": "github",
         "repo": "ishandhanani/dynamo-claude-plugin"
       },
-      "version": "1.0.0",
-      "description": "Standardized commit, PR, spec refinement, and debugging workflows with Linear integration"
+      "version": "2.0.0",
+      "description": "Dynamo development workflows: commit, PR, debugging, testing, and Linear integration"
     }
   ]
 }
